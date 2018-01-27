@@ -9,6 +9,11 @@ class enemy : public GameObject
 public:
     explicit enemy(char letter, QObject *parent = nullptr);
     void hit(char letter);
+    void update();
+    void setTarget(GameObject *target);
+
+private:
+    GameObject *target;
 
 signals:
 

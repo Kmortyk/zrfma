@@ -1,6 +1,7 @@
 #ifndef HERO_H
 #define HERO_H
 
+#include <QMouseEvent>
 #include "gameobject.h"
 
 class Hero : public GameObject

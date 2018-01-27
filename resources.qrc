@@ -1,1 +1,7 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/img">
+        <file>ZRFM_ENEMY.png</file>
+        <file>ZRFM_HERO.png</file>
+        <file>ZRFM_BULLET.png</file>
+    </qresource>
+</RCC>

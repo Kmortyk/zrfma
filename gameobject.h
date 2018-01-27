@@ -3,7 +3,11 @@
 
 #include <QObject>
 #include <QImage>
-#include <QRect>
+#include <QPainter>
+#include <QRectF>
+#include <QPointF>
+#include <QTransform>
+#include <QtMath>
 
 class GameObject : public QObject
 {
@@ -12,15 +16,22 @@ public:
     explicit GameObject(QObject *parent = nullptr);
 
     QImage *image;
-    QRect *bounds;
+    float angle;
+    float speed;
+    QPointF position;
+    QRectF *bounds;
+    bool isActive = true;
 
     int health = 1;
     char letter;
     void setHealth(int health);
     void setLetter(char letter);
+    void setPosition(QPointF position);
+    QPointF getDrawablePosition();
+    QPointF getDrawableDelta();
 
-private:
-    void rotate(float angle);
+protected:
+    void updateBounds();
 
 signals:
 
