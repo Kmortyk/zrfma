@@ -31,8 +31,11 @@ private:
     QList<enemy *> enemiesList;
     QList<bullet *> bulletsList;
 
+    QTimer *timer;
+    long time = 0;
+
     void updateCollision();
-    void addEnemy(const char &letter, const QPointF &position, const float &angle = 0);
+    void addEnemy(const char &letter, const QPointF &position);
 
 signals:
 

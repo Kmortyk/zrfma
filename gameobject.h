@@ -30,6 +30,7 @@ public:
     QPointF getDrawablePosition();
     QPointF getDrawableDelta();
 
+    static char getRandomChar();
 protected:
     void updateBounds();
 

@@ -6,26 +6,20 @@
 GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
 {
     hero = new Hero(this);
-    addEnemy('C', QPointF(-200,-200), 0);
-    addEnemy('A', QPointF(0,   -200), 0);
-    addEnemy('T', QPointF( 200,-200), 0);
 
-    addEnemy('=', QPointF(-200, 0), 0);
-    addEnemy(')', QPointF( 200, 0), 0);
-
-    addEnemy('D', QPointF(-200, 200), 0);
-    addEnemy('O', QPointF(0,  200), 0);
-    addEnemy('g', QPointF( 200, 200), 0);
-
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGame()));
     timer->start(10);
 
     setMouseTracking(true);
+
+    qsrand(0);
 }
 
 void GameWidget::updateGame()
 {
+    time += 10;
+
     for(QList<bullet *>::iterator it = bulletsList.begin(); it != bulletsList.end();) {
         (*it)->update();
         if(!(*it)->isActive){ it = bulletsList.erase(it); }
@@ -36,6 +30,11 @@ void GameWidget::updateGame()
         (*it)->update();
         if(!(*it)->isActive){ it = enemiesList.erase(it); }
         else { ++it; }
+    }
+
+    if(time > 1000){
+        addEnemy(GameObject::getRandomChar(), QPointF(qrand()%200 + 200,qrand()%200 + 200));
+        time = 0;
     }
 
     updateCollision();
@@ -72,6 +71,11 @@ void GameWidget::updateCollision()
                 (*j)->isActive = false;
             }
         }
+
+        if(hero->bounds->contains(*((*i)->bounds)))
+        {
+            timer->stop();
+        }
     }
 
 }
@@ -86,7 +90,7 @@ void GameWidget::paintEvent(QPaintEvent *event)
 void GameWidget::keyPressEvent(QKeyEvent *event)
 {
     QString text = event->text();
-    if(text.length() > 0) hero->letter = (char) text.at(0).toLatin1();
+    if(text.length() > 0) hero->letter = (char) text.at(0).toUpper().toLatin1();
 }
 
 void GameWidget::drawHero()
@@ -135,13 +139,12 @@ void GameWidget::drawLetter(QPainter &painter, GameObject *o, QPointF point)
     painter.drawPath(path);
 }
 
-void GameWidget::addEnemy(const char &letter, const QPointF &position, const float &angle)
+void GameWidget::addEnemy(const char &letter, const QPointF &position)
 {
     enemy *e = new enemy(letter, this);
     e->setPosition(position);
-    e->angle = angle;
     e->setTarget(hero);
-    e->speed = 0.0001;
+    e->speed = 0.001;
 
     enemiesList.push_back(e);
 }

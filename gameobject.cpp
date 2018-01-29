@@ -30,3 +30,9 @@ void GameObject::updateBounds()
     float h = image->height() / 2;
     bounds->setRect(position.x() - w/2, position.y() - h/2, w, h);
 }
+
+char GameObject::getRandomChar()
+{
+    int diff = 'Z'-'A';
+    return 'A'+(rand() % diff);
+}
