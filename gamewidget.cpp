@@ -32,8 +32,8 @@ void GameWidget::updateGame()
         else { ++it; }
     }
 
-    if(time > 1000){
-        addEnemy(GameObject::getRandomChar(), QPointF(qrand()%200 + 200,qrand()%200 + 200));
+    if(time > 3000){
+        addEnemy(GameObject::getRandomChar(), QPointF(qrand()%400 - 200,qrand()%400 - 200));
         time = 0;
     }
 
